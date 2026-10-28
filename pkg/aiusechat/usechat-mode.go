@@ -23,6 +23,7 @@ const (
 	OpenRouterChatEndpoint         = "https://openrouter.ai/api/v1/chat/completions"
 	NanoGPTChatEndpoint            = "https://nano-gpt.com/api/v1/chat/completions"
 	GroqChatEndpoint               = "https://api.groq.com/openai/v1/chat/completions"
+	ObscurifyChatEndpoint          = "https://obscurify.ai/v1/chat/completions"
 	AzureLegacyEndpointTemplate    = "https://%s.openai.azure.com/openai/deployments/%s/chat/completions?api-version=%s"
 	AzureResponsesEndpointTemplate = "https://%s.openai.azure.com/openai/v1/responses"
 	AzureChatEndpointTemplate      = "https://%s.openai.azure.com/openai/v1/chat/completions"
@@ -34,6 +35,7 @@ const (
 	OpenRouterAPITokenSecretName  = "OPENROUTER_KEY"
 	NanoGPTAPITokenSecretName     = "NANOGPT_KEY"
 	GroqAPITokenSecretName        = "GROQ_KEY"
+	ObscurifyAPITokenSecretName   = "OBSCURIFY_KEY"
 	AzureOpenAIAPITokenSecretName = "AZURE_OPENAI_KEY"
 	GoogleAIAPITokenSecretName    = "GOOGLE_AI_KEY"
 )
@@ -123,6 +125,17 @@ func applyProviderDefaults(config *wconfig.AIModeConfigType) {
 		}
 		if config.APITokenSecretName == "" {
 			config.APITokenSecretName = GroqAPITokenSecretName
+		}
+	}
+	if config.Provider == uctypes.AIProvider_Obscurify {
+		if config.APIType == "" {
+			config.APIType = uctypes.APIType_OpenAIChat
+		}
+		if config.Endpoint == "" {
+			config.Endpoint = ObscurifyChatEndpoint
+		}
+		if config.APITokenSecretName == "" {
+			config.APITokenSecretName = ObscurifyAPITokenSecretName
 		}
 	}
 	if config.Provider == uctypes.AIProvider_AzureLegacy {

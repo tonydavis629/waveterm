@@ -29,6 +29,7 @@ const (
 	AIProvider_Groq        = "groq"
 	AIProvider_OpenRouter  = "openrouter"
 	AIProvider_NanoGPT     = "nanogpt"
+	AIProvider_Obscurify   = "obscurify"
 	AIProvider_OpenAI      = "openai"
 	AIProvider_Azure       = "azure"
 	AIProvider_AzureLegacy = "azure-legacy"

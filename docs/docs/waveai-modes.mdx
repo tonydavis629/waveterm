@@ -36,6 +36,7 @@ Wave AI now supports provider-based configuration which automatically applies se
 - **`openrouter`** - OpenRouter API (automatically configures endpoint and secret name) [[see example](#openrouter)]
 - **`nanogpt`** - NanoGPT API (automatically configures endpoint and secret name) [[see example](#nanogpt)]
 - **`groq`** - Groq API (automatically configures endpoint and secret name) [[see example](#groq)]
+- **`obscurify`** - Obscurify.ai API (automatically configures endpoint and secret name) [[see example](#obscurifyai)]
 - **`google`** - Google AI (Gemini) [[see example](#google-ai-gemini)]
 - **`azure`** - Azure OpenAI Service (modern API) [[see example](#azure-openai-modern-api)]
 - **`azure-legacy`** - Azure OpenAI Service (legacy deployment API) [[see example](#azure-openai-legacy-deployment-api)]
@@ -319,6 +320,30 @@ The provider automatically sets:
 For Groq, you must manually specify `ai:capabilities` based on your model's features.
 :::
 
+### Obscurify.ai
+
+[Obscurify.ai](https://obscurify.ai/?utm_source=waveterm) is a privacy-focused, OpenAI-compatible API. Accounts are an account number with no email, and prompts and responses are not stored. Using the `obscurify` provider simplifies configuration:
+
+```json
+{
+  "obscurify-glm53": {
+    "display:name": "Obscurify.ai - GLM 5.3",
+    "ai:provider": "obscurify",
+    "ai:model": "z-ai/glm-5.3",
+    "ai:capabilities": ["tools"]
+  }
+}
+```
+
+The provider automatically sets:
+- `ai:endpoint` to `https://obscurify.ai/v1/chat/completions`
+- `ai:apitype` to `openai-chat`
+- `ai:apitokensecretname` to `OBSCURIFY_KEY` (store your Obscurify.ai API key with this name)
+
+:::note
+For Obscurify.ai, you must manually specify `ai:capabilities` based on your model's features. Model IDs and tool support are listed at [obscurify.ai/v1/models](https://obscurify.ai/v1/models).
+:::
+
 ### Google AI (Gemini)
 
 [Google AI](https://ai.google.dev) provides the Gemini family of models. Using the `google` provider simplifies configuration:
@@ -532,7 +557,7 @@ If you get "model not found" errors:
 | `display:order` | No | Sort order in the selector (lower numbers first) |
 | `display:icon` | No | Icon identifier for the mode (can use any [FontAwesome icon](https://fontawesome.com/search), use the name without the "fa-" prefix).  Default is "sparkles" |
 | `display:description` | No | Full description of the mode |
-| `ai:provider` | No | Provider preset: `openai`, `openrouter`, `nanogpt`, `groq`, `google`, `azure`, `azure-legacy`, `custom` |
+| `ai:provider` | No | Provider preset: `openai`, `openrouter`, `nanogpt`, `groq`, `obscurify`, `google`, `azure`, `azure-legacy`, `custom` |
 | `ai:apitype` | No | API type: `openai-chat`, `openai-responses`, or `google-gemini` (defaults to `openai-chat` if not specified) |
 | `ai:model` | No | Model identifier (required for most providers) |
 | `ai:thinkinglevel` | No | Thinking level: `low`, `medium`, or `high` |
@@ -556,7 +581,7 @@ The `ai:capabilities` field specifies what features the AI mode supports:
 
 **Provider-specific behavior:**
 - **OpenAI and Google providers**: Capabilities are automatically configured based on the model. You don't need to specify them.
-- **OpenRouter, NanoGPT, Groq, Azure, Azure-Legacy, and Custom providers**: You must manually specify capabilities based on your model's features.
+- **OpenRouter, NanoGPT, Groq, Obscurify.ai, Azure, Azure-Legacy, and Custom providers**: You must manually specify capabilities based on your model's features.
 
 :::warning
 If you don't include `"tools"` in the `ai:capabilities` array, the AI model will not be able to interact with your Wave terminal widgets, read/write files, or execute commands. Most AI modes should include `"tools"` for the best Wave experience.

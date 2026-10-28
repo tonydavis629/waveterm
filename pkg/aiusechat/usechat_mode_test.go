@@ -26,6 +26,22 @@ func TestApplyProviderDefaultsGroq(t *testing.T) {
 	}
 }
 
+func TestApplyProviderDefaultsObscurify(t *testing.T) {
+	config := wconfig.AIModeConfigType{
+		Provider: uctypes.AIProvider_Obscurify,
+	}
+	applyProviderDefaults(&config)
+	if config.APIType != uctypes.APIType_OpenAIChat {
+		t.Fatalf("expected API type %q, got %q", uctypes.APIType_OpenAIChat, config.APIType)
+	}
+	if config.Endpoint != ObscurifyChatEndpoint {
+		t.Fatalf("expected endpoint %q, got %q", ObscurifyChatEndpoint, config.Endpoint)
+	}
+	if config.APITokenSecretName != ObscurifyAPITokenSecretName {
+		t.Fatalf("expected API token secret name %q, got %q", ObscurifyAPITokenSecretName, config.APITokenSecretName)
+	}
+}
+
 func TestApplyProviderDefaultsKeepsProxyURL(t *testing.T) {
 	config := wconfig.AIModeConfigType{
 		Provider: uctypes.AIProvider_OpenAI,
